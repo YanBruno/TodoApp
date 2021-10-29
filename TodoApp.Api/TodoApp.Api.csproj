@@ -9,4 +9,8 @@
     <ProjectReference Include="..\TodoApp.Core\TodoApp.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TodoApp.Infra\TodoApp.Infra.csproj" />
+  </ItemGroup>
+
 </Project>

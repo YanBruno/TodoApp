@@ -8,7 +8,7 @@ using TodoApp.Infra.Contexts;
 
 namespace TodoApp.Infra.Migrations
 {
-    [DbContext(typeof(TodoAppcontext))]
+    [DbContext(typeof(TodoAppContext))]
     partial class TodoAppcontextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -1,16 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using TodoApp.Core.Handlers;
+using TodoApp.Core.Handlers.Contract;
+using TodoApp.Core.Repositories;
+using TodoApp.Infra.Contexts;
+using TodoApp.Infra.Repositories;
+using TodoApp.Shared;
 
 namespace TodoApp.Api
 {
@@ -23,18 +23,27 @@ namespace TodoApp.Api
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddCors();
             services.AddControllers();
+
+            services.AddDbContext<TodoAppContext>(opt => 
+                opt.UseSqlServer(Settings.StringConnection)
+            );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TodoApp.Api", Version = "v1" });
             });
+
+            //Referencia o core do app
+            services.AddTransient<ITodoRepository, TodoRepository>();
+            services.AddTransient<TodoHandler, TodoHandler>();
+
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -47,6 +56,12 @@ namespace TodoApp.Api
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(c => c
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+            );
 
             app.UseAuthorization();
 

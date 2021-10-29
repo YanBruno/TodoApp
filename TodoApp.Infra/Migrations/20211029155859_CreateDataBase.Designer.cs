@@ -9,7 +9,7 @@ using TodoApp.Infra.Contexts;
 
 namespace TodoApp.Infra.Migrations
 {
-    [DbContext(typeof(TodoAppcontext))]
+    [DbContext(typeof(TodoAppContext))]
     [Migration("20211029155859_CreateDataBase")]
     partial class CreateDataBase
     {

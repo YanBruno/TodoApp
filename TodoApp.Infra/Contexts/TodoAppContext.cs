@@ -1,10 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Core.Entities;
 using TodoApp.Infra.Contexts.Configurations;
+using TodoApp.Shared;
 
 namespace TodoApp.Infra.Contexts
 {
-    public class TodoAppcontext : DbContext{
+    public class TodoAppContext : DbContext{
+
+        public TodoAppContext(){}
+
+        public TodoAppContext(DbContextOptions<TodoAppContext> options):base(options){}
 
         public DbSet<Todo> Todos { get; set; }
 
@@ -16,9 +21,8 @@ namespace TodoApp.Infra.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
-            optionsBuilder.UseSqlServer(@"server=RIMTDTINB128179; Database=todoapp;Integrated Security=SSPI;");
+            optionsBuilder.UseSqlServer(Settings.StringConnection);
 
-            base.OnConfiguring(optionsBuilder);
         } 
         
     }

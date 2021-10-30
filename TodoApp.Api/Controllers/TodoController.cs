@@ -22,6 +22,21 @@ namespace TodoApp.Api.Controllers
             _repository = repository;
         }
 
+        [HttpPost]   
+        [Route("load")]
+        public async Task<IActionResult> Load(){
+
+            for (int i = 0; i < 11; i++)
+            {
+                var command = new CreateNewTodoCommand(){
+                    Title = $"Tarefa {i + 1}"
+                };
+                var result = await _handler.Handle(command);
+            }
+
+            return Ok();
+        }
+
         [HttpGet]   
         [Route("all")]
         public async Task<IEnumerable<Todo>> GetAll(){

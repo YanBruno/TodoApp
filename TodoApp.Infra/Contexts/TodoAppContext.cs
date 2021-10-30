@@ -21,7 +21,8 @@ namespace TodoApp.Infra.Contexts
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         {
-            optionsBuilder.UseSqlServer(Settings.StringConnection);
+            // optionsBuilder.UseSqlServer(Settings.StringConnection);
+            optionsBuilder.UseInMemoryDatabase("todoapp");
 
         } 
         

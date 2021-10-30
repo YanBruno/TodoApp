@@ -7,6 +7,7 @@ namespace TodoApp.Core.Commands.TodoCommands
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
+
         public bool Validate()
         {
             if(String.IsNullOrEmpty(Title))

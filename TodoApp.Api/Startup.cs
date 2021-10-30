@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using TodoApp.Core.Handlers;
-using TodoApp.Core.Handlers.Contract;
 using TodoApp.Core.Repositories;
 using TodoApp.Infra.Contexts;
 using TodoApp.Infra.Repositories;
@@ -30,7 +29,8 @@ namespace TodoApp.Api
             services.AddControllers();
 
             services.AddDbContext<TodoAppContext>(opt => 
-                opt.UseSqlServer(Settings.StringConnection)
+                // opt.UseSqlServer(Settings.StringConnection)
+                opt.UseInMemoryDatabase("todoapp")
             );
 
             services.AddSwaggerGen(c =>

@@ -12,7 +12,8 @@ namespace TodoApp.Core.Handlers
     public class TodoHandler : 
         IHandler<CreateNewTodoCommand>,
         IHandler<AlterDoneTodoCommand>,
-        IHandler<AlterTitleTodoCommand>
+        IHandler<AlterTitleTodoCommand>,
+        IHandler<DeleteTodoCommand>
     {
 
         private readonly ITodoRepository _repository;
@@ -101,6 +102,25 @@ namespace TodoApp.Core.Handlers
             var result = await _repository.UpdateAsync(todo);
 
             return new GenericCommandResult("Todo alterado com sucesso", true, todo);
+        }
+
+        public async Task<ICommandResult> Handle(DeleteTodoCommand command)
+        {
+            if(!command.Validate())
+                return new GenericCommandResult("Ops, command inválido", false, null);
+
+
+            //Recupera Todo
+            var todo = await _repository.GetByIdAsync(command.Id);
+
+            if(todo == null)
+                return new GenericCommandResult("Ops, Todo inválido", false, null);
+
+            //Persiste no banco
+            var result = await _repository.DeleteAsync(todo);
+            todo = null;
+
+            return new GenericCommandResult("Todo deletado com sucesso", true, todo);
         }
     }
 }

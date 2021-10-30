@@ -3,15 +3,11 @@ using TodoApp.Core.Commands.Contracts;
 
 namespace TodoApp.Core.Commands.TodoCommands
 {
-    public class AlterTitleTodoCommand : ICommand
-    {
+    public class DeleteTodoCommand : ICommand{
         public Guid Id { get; set; }
-        public string Title { get; set; }
+
         public bool Validate()
         {
-            if(String.IsNullOrEmpty(Title))
-                return false;
-
             return true;
         }
     }

@@ -28,19 +28,21 @@ namespace TodoApp.Api.Controllers
             
             return await _repository.GetTodosAsync();
         }
-
+        
         [HttpGet]   
         [Route("{id:Guid}")]
         public async Task<Todo> GetById([FromRoute] Guid id){
             
             return await _repository.GetByIdAsync(id);
         }
+        
         [HttpPut]   
         [Route("{id:Guid}/done")]
         public async Task<ICommandResult> AlterDone([FromRoute] AlterDoneTodoCommand command){
             
             return await _handler.Handle(command);
         }
+        
         [HttpPut]   
         [Route("{id:Guid}/title")]
         public async Task<ICommandResult> AlterTitle([FromBody] AlterTitleTodoCommand command, [FromRoute]Guid id){
@@ -51,6 +53,13 @@ namespace TodoApp.Api.Controllers
         [HttpPost]   
         [Route("new")]
         public async Task<ICommandResult> Post([FromBody] CreateNewTodoCommand command){
+            return await _handler.Handle(command);
+        }
+    
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<ICommandResult> Delete([FromRoute] DeleteTodoCommand command){
+            
             return await _handler.Handle(command);
         }
     }
